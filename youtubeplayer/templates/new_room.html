@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load socialprofile_tags %}
+
+{% block metatags %}
+{% endblock %}
+
+{% block title %}Порядочный чатик{% endblock %}
+{% block title_in_body %}Порядочный чатик{% endblock %}
+
+{% block content %}
+    
+
+
+    <p style="clear: left"> Случайная комната создана <b>{{ new_room }}</b></p>
+    <b><span id="time"></span></b>
+
+
+{% endblock %}
+
+{% block messages %}
+
+
+    
+    <script>
+    //редиректор с счетчиком:)
+    var i = 1;//время в сек.
+
+    function time(){
+
+        document.getElementById("time").innerHTML = "Страница обновится через " + i + " сек.";//визуальный счетчик
+
+        i--;//уменьшение счетчика
+
+        if (i < 0) location.href = "{% url 'chat_index:chat_index' %}";//редирект
+
+    }
+
+    time();
+
+    setInterval(time, 1000);
+    </script>
+
+    <script type="text/javascript" src='{% static "js/jquery-1.12.2.min.js" %}'></script>
+    <script type="text/javascript" src='{% static "js/reconnecting-websocket.min.js" %}'></script>
+    <!--<script type="text/javascript" src='{% static "js/chat.js" %}'></script>-->
+    <!--<script src="{{ STATIC_URL }}js/jquery-1.12.2.min.js" type="text/javascript"></script>-->
+        <!--<link href="{{ STATIC_URL }}css/socialprofile.css" rel="stylesheet" type="text/css" media="screen" />-->
+{% endblock messages %}

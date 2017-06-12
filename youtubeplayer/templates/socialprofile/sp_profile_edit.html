@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load socialprofile_tags %}
+
+{% block title_in_body %}{% trans "Профиль для " %}{{ user.username }}{% endblock %}
+
+{% block header %}
+    <header data-role="header">
+        <a href="{% url 'sp_profile_view_page' %}?returnTo={{ sp_form.returnTo.value }}"
+           data-role="button">{% trans "Отмена" %}</a>
+
+        <h1 class="ui-title">{% trans "Профиль" %}</h1>
+        <a href="#" data-role="button" onclick="$('#sp-profile-form').submit();">{% trans "Применить" %}</a>
+    </header>
+{% endblock %}
+
+{% block content %}
+    <section title="profile" data-role="content">
+        <!--{% if user.social_profile.image_url %}
+            <img src="{{ user.social_profile.image_url }}"/>
+
+        {% endif %}-->
+        {% if user.social_profile.avatar %}
+        	<img src="{{ MEDIA_URL }}{{ user.social_profile.avatar }}" width="100" height = "100">
+        {% elif user.social_profile.image_url %}
+        	<img src="{{ user.social_profile.image_url }}"/>
+        {% else %}
+        	Empty
+        {% endif %}
+        <form action="{% url 'sp_profile_edit_page' %}" method="post" id="sp-profile-form" data-ajax="false" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <ul>
+                {{ user_form.as_p }}
+            </ul>
+            <ul>
+                {{ sp_form.as_p }}
+            </ul>
+        </form>
+        <h3 style="margin-left:10px;">{% trans "Социальные соединения" %}</h3>
+        {% if user.social_auth.all.count == 1 %}
+            {% with only_connection=user.social_auth.all|first %}
+                <p style="margin-left:20px;"><em>{{ only_connection.provider|social_provider_name }}
+                    {% trans "ваше значение аутентификации, не может быть удалено." %}</em></p>
+            {% endwith %}
+        {% else %}
+            <ul>
+                {% for user_social_auth in user.social_auth.all %}
+                    <a href="{% url "social:disconnect" user_social_auth.provider %}"
+                       data-role="button">{% trans "Disconnect" %} {{ user_social_auth.provider|social_provider_name }}</a>
+                {% endfor %}
+                <li><a href="{% url "sp_select_page" %}" data-rel="dialog"
+                       data-role="button">{% trans "Добавить Социальное соединение" %}</a></li>
+            
+
+        {% endif %}
+
+        <br>
+        <br>
+        
+        <li><a href="{% url "sp_delete_page" %}" data-role="button" data-theme="e">{% trans "Удалить аккаунт" %}</a></li>
+        </ul>
+    </section>
+{% endblock %}

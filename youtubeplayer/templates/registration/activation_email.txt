@@ -1,0 +1,4 @@
+Register at site.
+Link this URL to finish
+{{ site }}/accounts/activate/{{ activation_key }}/
+Thanks!

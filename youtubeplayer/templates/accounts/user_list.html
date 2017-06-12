@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block container %}
+    <div class="panel panel-default">
+        <div class="panel-heading">User list</div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Info</th>
+                    <th>Аватар</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in user_list %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.social_profile__info }}</td>
+                    <td>{% if user.social_profile__avatar %}<img src="{{ MEDIA_URL }}{{ user.social_profile__avatar }}" width="50" height = "50">{% else %}Empty{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

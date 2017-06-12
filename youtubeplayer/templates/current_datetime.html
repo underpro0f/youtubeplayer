@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load socialprofile_tags %}
+
+{% block title %}The current time{% endblock %}
+{% block title_in_body %}Текущее время{% endblock %}
+{% block content %}
+<p>Текущее время: {{ current_date }}.</p>
+<div class="ui-grid-b">
+	<div class="ui-block-a">
+		<a href="{% url 'chat_index:chat_index' %}" data-role="button" data-theme="e" >{% trans "Чат" %}</a></div>
+	<div class="ui-block-b">
+		<a href="{% url 'friend_index:friend_index' %}" data-role="button" data-theme="b" >{% trans "Друзья" %}</a></div> 
+
+	<div class="ui-block-c"><a href="{% url 'chat_index:chat_index' %}" data-role="button" data-theme="e" >{% trans "Чат" %}</a></div>
+</div>
+<p class="quiet">
+   Или, вы можете посетить <code>{{ request.scheme }}://{{ request.get_host }}/chat/any-path-you-want</code> 
+   для вступления в желаемую группу.
+</p>
+
+{% endblock %}

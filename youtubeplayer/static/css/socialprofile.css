@@ -1,0 +1,306 @@
+
+.sp-login-modal .ui-dialog-contain {
+    max-width: 273px;
+}
+
+.ui-icon-googleplusB { 
+    background: transparent url("../images/Google-Plus.png");
+    background-size: 25px 25px;
+    background-repeat: no-repeat; 
+    background-position: top 50% left 7%;
+    width: 90px;
+    float: left;
+
+}
+
+.ui-icon-facebookB { 
+    background: transparent url("../images/Facebook-128.png");
+    background-size: 25px 25px;
+    background-repeat: no-repeat; 
+    background-position: top 50% left 7%;
+    width: 90px;
+
+}
+
+.ui-icon-twitterB { 
+    background: transparent url("../images/Twitter-Bird-128.png");
+    background-size: 25px 25px;
+    background-repeat: no-repeat; 
+    background-position: top 50% left 7%;
+    width: 90px;
+    float: left;
+
+    
+}
+
+.ui-icon-VkB { 
+    background: transparent url("../images/vk-logo-of-social-network.png");
+    background-size: 25px 25px;
+    background-repeat: no-repeat; 
+    background-position: top 50% left 7%;
+    width: 90px;
+    float: left;
+  
+    
+}
+
+.ui-icon-OdnoklassnikiB { 
+    background: transparent url("../images/odnoklassniki-logo.png");
+    background-size: 25px 25px;
+    background-repeat: no-repeat; 
+    background-position: top 50% left 7%;
+    width: 90px;
+    float: left;
+  
+    
+}
+
+#sp-google-button .ui-icon-googleplusB {
+    
+
+}
+
+#sp-facebook-button .ui-icon-facebookB {
+    
+
+}
+
+#sp-twitter-button .ui-icon-twitterB {
+    
+}
+
+#sp-vk-button .ui-icon-VkB {
+    
+}
+
+#sp-odnoklassniki-button .ui-icon-OdnoklassnikiB {
+    
+}
+
+
+#sp-profile-form ul {
+    list-style: none;
+}
+
+#sp-profile-form ul li {
+    margin-top: 10px;
+}
+
+#sp-profile-form .helptext {
+    display: none;
+}
+
+.sp-profile-img {
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.sp-profile-img img {
+    display: inline-block;
+    height: 80px;
+    width: 80px;
+}
+
+.sp-profile-img-chat {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    padding-right: 15px;
+}
+
+.sp-profile-img-selfchat {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    float: right;
+    /*clear: right;*/
+}
+
+.sp-profile-name {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 25px;
+    margin-left: 8px;
+}
+
+.sp-profile-block label {
+    float: left;
+    width: 110px;
+    text-align: right;
+    font-weight: normal;
+    margin-right: 10px;
+}
+
+.sp-profile-block li div {
+    
+
+}
+
+.errorlist li {
+    font-weight: bold;
+    margin: 15px 15px 15px 15px;
+    color: #ff0000;
+}
+
+
+
+/*chat*/
+.empty {
+    color: #666;
+    font-style: italic;
+}
+
+.rooms li {
+    padding: 5px 7px;
+    background: #def;
+    display: inline;
+    margin: 5px 2px;
+    border: 1px solid #bcd;
+    border-radius: 2px;
+    cursor: pointer;
+}
+    .rooms li.joined {
+        background: #5898D9;
+        border: 1px solid #35485C;
+    }
+
+
+
+
+#chats {
+
+}
+    #chats .room {
+        border: 1px solid #ccc;
+        padding: 5px;
+        margin: 30px 0 0 0;
+    }
+    #chats h2 {
+        color: #333;
+        margin: 2px 0 5px 0;
+        font-weight: bold;
+    }
+    #chats .messages {
+        /*height: 200px;*/
+        /*display: inline-block;*/
+        overflow: auto;
+        background: #eee;
+        margin-left: 15px;
+        /*margin: 2px 0 5px 0;*/
+        word-wrap: break-word;
+        
+
+    }
+    /*ne rabotaet*/
+    #chats .members {
+        overflow: auto;
+        background: #92ec8c;
+           
+    }
+    /*ne rabotaet*/
+    #chats .leftmembers {
+        overflow: auto;
+        background: red;
+           
+    }
+
+
+
+    #chats .selfmessages {
+        text-align: center;
+        overflow: auto;
+        float: right;
+        /*clear: right;
+        display: inline-block;*/
+        background: #92ec8c;
+        margin-right: 15px;
+        float-right: auto;
+        /*margin-right: auto;*/
+        word-wrap: break-word;
+        
+       
+    }
+    #chats .selfusername {
+        
+        /*height: 200px;*/
+        float: right;
+        clear: right;
+        font-weight: bold;
+        color: #3648C7;
+        /*margin: 2px 0 5px 0;*/
+        margin-left: 10px;
+        margin-right: 2px;
+        
+        font-size: x-small; 
+
+
+        
+    }
+    #chats .clearing {
+        clear: both;
+    }
+    
+    #chats .selfdate {
+        
+        /*vertical-align: bottom;*/
+        
+        /*float: bottom;*/
+        float: right;
+        
+        font-family: Arial, sans-serif; 
+        font-size: x-small;
+         
+        
+    }    
+    
+
+    #chats .username {
+        float: left;
+        clear: left;
+        font-weight: bold;
+        /*margin-left: 10px;*/
+        margin-right: 15px;
+        font-size: x-small; 
+        color: #C08A36;
+        font-weight: bold;
+        
+        /*width: 150*/
+       
+    }
+
+    #chats .udate {
+        
+        /*vertical-align: bottom;*/
+        
+        /*float: bottom;*/
+        float: left;
+        
+        font-family: Arial, sans-serif; 
+        font-size: x-small;
+         
+        
+    } 
+    /*
+    #chats .username:after {
+        content: " ";      
+
+    }
+    */
+
+    #chats .contextual-message{
+        text-align: center;
+        margin: 5px 5px 5px 5px;
+    }
+    #chats .text-muted {
+        opacity: .6;
+        font-style: italic;
+    }
+    #chats .text-danger {
+        color: #a94442;
+        font-weight: bold;
+    }
+    #chats .text-warning {
+        color: #DCAD5C;
+        font-weight: bold;
+        font-style: italic;
+    }

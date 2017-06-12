@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block title %} Новый пароль установлен {% endblock %}
+{% block title_in_body %}Новый пароль установлен{% endblock %}
+{% block content %}
+	<p>{{ user.username }}, Ваш пароль успешно изменен. Перейти <a href="{% url 'home' %}">на главную</a></p>
+{% endblock %}

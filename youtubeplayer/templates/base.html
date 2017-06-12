@@ -1,0 +1,103 @@
+{% load static %}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0"/>
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" />
+    <link rel="stylesheet" href="{% static 'css/socialprofile.css' %}"/>
+    <!--<link href="{{ STATIC_URL }}css/socialprofile.css" rel="stylesheet" type="text/css" media="screen" />-->
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"/>
+    <!--<script src="{% static "reconnecting-websocket.min.js" %}"></script>-->
+	<!--{% block headextra %}{% endblock %}-->
+    <script type="text/javascript" src='{% static "js/jquery-1.12.2.min.js" %}'></script>
+
+    <!--<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>-->
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+    <title>{% block title %}{% endblock %}</title>
+
+    {% block metatags %}
+    {% endblock %}
+    {% if debug %}
+        <script type="text/javascript">
+            var isDebug = true;
+        </script>
+    {% else %}
+        <script type="text/javascript">
+            var isDebug = false;
+        </script>
+    {% endif %}
+
+    <script>
+        /* Fix Facebook Appending Hash */
+        if (window.location.hash == "#_=_")
+            window.location.hash = "";
+    </script>
+    {% block head %}{% endblock %}
+</head>
+<body {% block body_class %}{% endblock %}>
+<section {% block page_role %}data-role="page"{% endblock %}>
+  
+   
+    {% if user.is_authenticated %}
+    <div data-role="controlgroup" data-type="horizontal" class="ui-btn-right">    
+        <a href="{% url 'auth_logout' %}" data-inline="true" data-mini="true" data-role="button" data-icon="back" data-theme="b" >Выход</a>
+        <a href="{% url 'home' %}" data-role="button" data-icon="home" data-inline="true" data-mini="true">На главную</a>         
+        <a href="{% url 'change_password' %}" data-inline="true" data-mini="true" data-role="button" data-icon="gear" data-theme="e">Cменить пароль</a>
+
+        
+    </div>
+           
+        <a href="{% url 'sp_profile_view_page' %}" data-role="button" data-inline="true">
+            
+            
+            {% if user.social_profile.avatar %}
+                <img src="{{ MEDIA_URL }}{{ user.social_profile.avatar }}" style="width: 50px; height: 50px">
+            {% elif user.social_profile.image_url %}
+                <img src="{{ user.social_profile.image_url }}" style="width: 50px; height: 50px">
+            {% else %}
+                <img src="{{ sp_form.image_url.value|default:"http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm" }}" style="width: 50px; height: 50px">
+            {% endif %}
+            
+
+            {{ user.username }} ({{ user.first_name }} {{ user.last_name }})
+        </a>
+
+    {% else %}
+    <!--
+    <div data-role="controlgroup" data-type="horizontal">
+        <a href="{% url 'auth_login' %}" data-inline="true" data-mini="true" data-role="button" data-icon="carat-u" data-theme="b">Вход</a> 
+        
+        <a href="{% url 'registration_register' %}" data-inline="true" data-mini="true" data-role="button" data-icon="action" data-theme="b">Регистрация</a>
+    </div>
+    -->
+        <h4>Здравствуйте, Аноним</h4>
+    {% endif %}
+
+    <h1> {% block title_in_body %}{% endblock %} </h1>
+    {% block header %}{% endblock %}
+    <hr>
+    {% block content %}{% endblock %}
+    
+    {% block footer %}
+    <hr>
+
+    {% endblock %}
+
+    {% block messages %}
+
+
+    <!--<script type="text/javascript" src='{% static "js/jquery-1.12.2.min.js" %}'></script>-->
+    <script type="text/javascript" src='{% static "js/reconnecting-websocket.min.js" %}'></script>
+    {% endblock %}
+
+</section>
+
+    {% block afterbody %}{% endblock afterbody %}
+	<!--{% block extra_body %}{% endblock %}-->
+
+</body>
+</html>
+

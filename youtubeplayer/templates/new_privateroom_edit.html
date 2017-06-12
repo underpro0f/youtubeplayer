@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load socialprofile_tags %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block content %}
+
+    <header data-role="header">
+        <a href="../"
+           data-role="button">{% trans "Отмена" %}</a>
+
+        <h1 class="ui-title"><div class="values">Общая комната</div></h1>
+        <a href="../" data-role="button" onclick="$('#new_room_private').submit();">{% trans "Создать комнату" %}</a>
+    </header>
+    
+
+ 
+
+        <form action="{% url 'chat_index:new_room_private' %}" method="POST" id="new_room_private" data-ajax="false" value="{{ title }}">
+
+            {% csrf_token %}
+
+            <ul>
+                
+                {{ pg_form.as_p }}
+                
+            </ul>
+        </form>
+
+        <form method='GET' action=''><label for='q'>Поиск участника для приватного чата: </label><input type='text' name='q' value='{{ request.GET.q }}' maxlength='30' style='background-color: #e4e4b8;' /><button type='submit'>Поиск</button></form>
+
+        {% if request.GET.q %}
+            <h2><center>Результаты поиска</center></h2>
+            {% for obj in object_list %}
+                
+                <li><b>{{ obj }}</b>
+                {% if not obj in friends %}
+                    {% if obj.pk != user.pk %}
+                    <a href="{% url 'chat_index:change_members' operation='add' pk=obj.pk %}" > 
+                    <button type="button" data-role="button" data-theme="b" >Добавить в чат</button>
+                    </a>
+                    {% endif %}
+                {% endif %}
+                </li>
+            {% empty %}
+            <center><p class="empty">Пользователи с именем '<b>{{ request.GET.q }}</b>' отсутствуют</p></center>
+            {% endfor %}
+        
+        {% endif %}
+
+
+    
+
+
+        <!--
+        <form method='GET' action=''><label for='q'>Поиск пользователя: </label><input type='text' name='q' value='{{ request.GET.q }}' maxlength='30' style='background-color: #e4e4b8;' /><button type='submit'>Поиск</button></form>
+        
+        {% if request.GET.q %}
+        	{% for obj in object_list %}
+        		obj
+        	{% endfor %}
+        
+        {% endif %}
+        -->
+<script>
+var boxes = $("input:checkbox");
+$("input:checkbox").on("change", function(){
+  var theArray = new Array();
+  for (var i=0;i<boxes.length;i++) {
+   var box = boxes[i]; 
+   if ($(box).prop('checked')) {
+      theArray[theArray.length] = $(box).val();
+   }
+}
+  showValues(theArray);
+});
+var showValues = function(array) {
+  var text = "";
+  if(array.length == 0) text += "Общая комната";
+  for(var i = 0; i < array.length; i++) {
+     text += "Приватная комната";
+   }
+  $(".values").html(text);
+}
+</script>
+
+
+{% endblock content %}
+
+{% block afterbody %}
+
+
+<script type="text/javascript" src='{% static "js/jquery-1.12.2.min.js" %}'></script>
+{% endblock afterbody %}

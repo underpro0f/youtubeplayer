@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load socialprofile_tags %}
+
+{% block content %}
+    <form action="" method="post">
+    {% csrf_token %}
+      <label for="group_name">Введите название комнаты: </label>
+	  <input id="group_name" type="text" name="group_name" maxlength="30" style="background-color: #e4e4b8;" />
+	  <button type="submit">Отправить</button>
+      <label for="private_group">Закрытая группа</label>
+      <input type="checkbox" name="private_group" id="private_group" />
+      
+      
+      <div id="find_username"></div>
+      <!--
+      <div id="list_users">
+
+      </div>
+      
+	
+      
+      <input type="reset" value="Очистить">
+      -->
+      <input type="button" onclick="location.href='../'" value='Назад'>
+      
+
+
+
+    </form>
+
+<script>
+//check checkbox
+var c = document.querySelector('#private_group');
+
+
+c.onclick = function() {
+ if (c.checked) {
+  var userdiv = $("<form method='POST' id='searchUser' action=''>{% csrf_token %}<label for='user_name'>Поиск пользователя: </label><input id='user_name' type='text' name='user_name' maxlength='30' style='background-color: #e4e4b8;' /><button type='submit'>Поиск</button></form>"
+	);
+  //alert( 'чекбокс включён' );
+
+  $("#find_username").append(userdiv);
+
+  $('#searchUser').submit(function(){
+    
+    // проверяем пару полей
+    var ok = ( $('#user_name').val() ); // пусть ok хранит результат какой-то проверки
+	//var arr = [];
+	//var userlist = ( $('#list_users').html() );
+	//arr.push(userlist);
+	 
+    if ( !ok ) { // если поля не прошли проверку
+        
+        // каким-то образом оповещаем об ошибках пользователя
+        alert('Чето не то!');
+        //console.log(userlist)
+        //console.log( arr );
+        //$("#list_users").append('{{ user }}');
+ 
+        return false; // и этим false отменяем отправку формы
+    } else {
+    	//console.log('{{ user1 }}');
+    	
+    }
+ 
+});
+
+ } else {
+  //alert( 'чекбокс выключён' );
+  $("#find_username").empty();
+ }
+}
+$("#find_username").append('{{ user1 }}');
+$("#find_username").append('{{ groupName }}');
+console.log('{{ user1 }}');
+</script>
+
+{% endblock content %}
+
+{% block afterbody %}
+
+
+<script type="text/javascript" src='{% static "js/jquery-1.12.2.min.js" %}'></script>
+{% endblock afterbody %}

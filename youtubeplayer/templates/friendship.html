@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load socialprofile_tags %}
+
+{% block header %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+	
+	<!--
+	<form method="post">
+	{% csrf_token %}
+
+    {{ form.post }}
+    <br>
+    <label for='Searching'>Поиск пользователя: </label><input type='text' name='q' placeholder="Найти друга" maxlength='30' style='background-color: #e4e4b8;' />
+
+    <button type="submit">Найти</button>
+    </form>
+    -->
+
+    <form method='GET' action='/friendship/'><label for='q'>Поиск пользователя: </label><input type='text' name='q' value='{{ request.GET.q }}' maxlength='30' style='background-color: #e4e4b8;' /><button type='submit'>Поиск</button></form>
+        
+
+    
+
+
+
+
+    <div class="col-md-3 " >
+    <h2>Список всех пользователей</h2>
+    {% for user in users %}
+    	{% if not user in friends %}
+    	<li>{{ user.username }}
+    	
+        <a href="{% url 'friend_index:change_friends' operation='add' pk=user.pk %}" >
+    	<button type="button" data-role="button" data-theme="b" >Добавить</button>
+    	</a></li>
+    	
+    	{% endif %}	
+    {% endfor %}
+    </div>
+
+    <div class="col-md-6 " >
+        
+        {% if request.GET.q %}
+        	<h2><center>Результаты поиска</center></h2>
+        	{% for obj in object_list %}
+        		<p>Найден пользователь:</p>
+        		<li><b>{{ obj }}</b>
+        		{% if not obj in friends %}
+        			{% if obj.pk != user.pk %}
+        			<a href="{% url 'friend_index:change_friends' operation='add' pk=obj.pk %}" > 
+    				<button type="button" data-role="button" data-theme="b" >Подписаться</button>
+    				</a>
+    				{% endif %}
+    			{% endif %}
+    			</li>
+        	{% empty %}
+        	<center><p class="empty">Пользователи с именем '<b>{{ request.GET.q }}</b>' отсутствуют</p></center>
+        	{% endfor %}
+        
+        {% endif %}
+    </div>
+
+    <div class="col-md-3">
+    <!-- ЭТО лист подписчиков без друзей
+    <h2>Ваши подписки</h2>
+    
+    
+    {% for friend in friends %}
+    	<li>{{ friend.username }}<a href="{% url 'friend_index:change_friends' operation='remove' pk=friend.pk %}">
+    	<button type="button" data-role="button" >Убрать</button>
+    	</a></li>
+
+    {% empty %}
+        <p class="empty">Подписки отсутствуют</p>
+   		
+    {% endfor %}
+    -->
+    <h2>Ваши друзья</h2>
+    {% for true_friend in true_friends %}
+    	<li>{{ true_friend }}<a href="{% url 'friend_index:change_friends' operation='remove' pk=true_friend.pk %}" > <button type="button" data-role="button" >Отменить дружбу</button>
+    	</a></li>
+    	{% empty %}
+   		<p class="empty">Друзья отсутствуют</p>
+    {% endfor %}
+
+    <h2>Подписаны на вас</h2>
+    {% for drug in drugs %}
+    	<li>{{ drug.username }}<a href="{% url 'friend_index:change_friends' operation='add' pk=drug.pk %}" > <button type="button" data-role="button" data-theme="b" >Подружиться</button>
+    	</a></li>
+    	{% empty %}
+        <p class="empty">На вас никто не подписан</p>
+    {% endfor %}
+  
+    <h2>Ваши подписки</h2>
+    
+    {% for friendl in friendlist %}
+    	<li>{{ friendl }}<a href="{% url 'friend_index:change_friends' operation='remove' pk=friendl.pk %}">
+    	<button type="button" data-role="button" >Убрать</button>
+    	</a></li>
+
+    {% empty %}
+        <p class="empty">Подписки отсутствуют</p>
+   		
+    {% endfor %}
+
+    </div>
+    
+</div>
+
+
+        <!--<form action="{% url "chat_index:new_room_private" %}" method="post" id="new_room_private" data-ajax="false">
+
+            {% csrf_token %}
+
+            <ul>
+                {{ pg_form.as_p }}
+            </ul>
+        </form>
+        
+        <form method='GET' action=''><label for='q'>Поиск пользователя: </label><input type='text' name='q' value='{{ request.GET.q }}' maxlength='30' style='background-color: #e4e4b8;' /><button type='submit'>Поиск</button></form>
+        
+        {% if request.GET.q %}
+        	{% for obj in object_list %}
+        		obj
+        	{% endfor %}
+        
+        {% endif %}
+        -->
+        
+
+
+
+{% endblock content %}
+
+{% block afterbody %}
+
+
+
+{% endblock afterbody %}

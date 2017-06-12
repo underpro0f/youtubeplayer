@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    <form method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+        {{ signup_form }}
+        {{ user_profile_signup_form }}
+        <button type="submit" class="btn">Send</button>
+    </form>
+{% endblock %}

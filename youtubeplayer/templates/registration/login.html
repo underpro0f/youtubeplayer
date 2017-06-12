@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}Аутентификация{% endblock %}
+{% block title_in_body %}Аутентификация{% endblock %}
+{% block page_role %}id="sp-login-modal" data-role="dialog"{% endblock %}
+{% block content %}
+{% if form.errors %}
+<p><a href="{% url 'password_reset_recover' %}">Забыли пароль? Восстановить.</a></p>
+{% endif %}
+    <form action="" method="post">
+      {% csrf_token %}
+      <!-- as_p для того, чтобы каждый элемент формы был с новой строки -->
+      {{ form.as_p }}
+      <button type="submit">Войти</button>
+      <input type="reset" value="Очистить">
+      <input type="button" onclick="location.href='../register'" value='Зарегистрироваться'>
+
+
+    </form>
+
+    <div data-role="header" data-theme="b" style="text-align: center;">
+        <p>{% trans 'Войти, используя соцсети' %}</p>
+    </div>
+    <div data-role="content" title="{% trans 'Войти, используя соцсети' %}" >
+        <a href="{% url 'social:begin' backend='google-oauth2' %}{% if next_url and next_param %}?{{ next_param }}={{ next_url }}{% endif %}"
+           id="sp-google-button" data-ajax="false" data-role="button" data-theme="b" data-icon="googleplusB"
+           data-iconshadow="false">{% trans "Google" %}</a>
+        <a href="{% url "social:begin" 'twitter' %}{% if next_url and next_param %}?{{ next_param }}={{ next_url }}{% endif %}"
+           id="sp-twitter-button" data-ajax="false" data-role="button" data-theme="b" data-icon="twitterB"
+           data-iconshadow="false">{% trans "Twitter" %}</a>
+        <a href="{% url "social:begin" 'facebook' %}{% if next_url and next_param %}?{{ next_param }}={{ next_url }}{% endif %}"
+           id="sp-facebook-button" data-ajax="false" data-role="button" data-theme="b" data-icon="facebookB"
+           data-iconshadow="false">{% trans "Facebook" %}</a>
+
+        <a href="{% url "social:begin" 'vk-oauth2' %}{% if next_url and next_param %}?{{ next_param }}={{ next_url }}{% endif %}"
+           id="sp-vk-button" data-ajax="false" data-role="button" data-theme="b" data-icon="VkB"
+           data-iconshadow="false">{% trans "VK" %}</a>
+        <a href="{% url "social:begin" 'odnoklassniki-oauth2' %}{% if next_url and next_param %}?{{ next_param }}={{ next_url }}{% endif %}"
+           id="sp-odnoklassniki-button" data-ajax="false" data-role="button" data-theme="b" data-icon="OdnoklassnikiB"
+           data-iconshadow="false">{% trans "OK" %}</a>
+
+    </div>
+{% endblock %}
