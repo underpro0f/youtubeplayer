@@ -65,7 +65,7 @@ def ws_disconnect(message):
 
 # Channel_session_user loads the user out from the channel session and presents
 # it as message.user. There's also a http_session_user if you want to do this on
-# a low-level HTTP usernamer, or just channel_session if all you want is the
+# a low-level HTTP handler, or just channel_session if all you want is the
 # message.channel_session object without the auth fetching overhead.
 @channel_session_user
 @catch_client_error
@@ -164,77 +164,3 @@ def chat_send(message):
     })
     
 
-from channels.generic.websockets import JsonWebsocketConsumer
-
-
-'''
-@channel_session
-def wsock_connect(message):
-    # Extract the room from the message. This expects message.path to be of the
-    # form /chat/{title}/, and finds a Room if the message path is applicable,
-    # and if the Room exists. Otherwise, bails (meaning this is a some othersort
-    # of websocket). So, this is effectively a version of _get_object_or_404.
-    try:
-        prefix, title = message['path'].decode('ascii').strip('/').split('/')
-        if prefix != 'list_rooms':
-            log.debug('invalid ws path=%s', message['path'])
-            return
-        room = Room.objects.get(title=title)
-    except ValueError:
-        log.debug('invalid ws path=%s', message['path'])
-        return
-    except Room.DoesNotExist:
-        log.debug('ws room does not exist title=%s', title)
-        return
-
-    log.debug('chat connect room=%s client=%s:%s', 
-        room.title, message['client'][0], message['client'][1])
-    
-    # Need to be explicit about the channel layer so that testability works
-    # This may be a FIXME?
-    Group('list_rooms-'+title, channel_layer=message.channel_layer).add(message.reply_channel)
-
-    message.channel_session['room'] = room.title
-
-@channel_session
-def wsock_receive(message):
-    # Look up the room from the channel session, bailing if it doesn't exist
-    try:
-        title = message.channel_session['room']
-        room = Room.objects.get(title=title)
-    except KeyError:
-        log.debug('no room in channel_session')
-        return
-    except Room.DoesNotExist:
-        log.debug('recieved message, buy room does not exist title=%s', title)
-        return
-
-    # Parse out a chat message from the content text, bailing if it doesn't
-    # conform to the expected message format.
-    try:
-        data = json.loads(message['text'])
-    except ValueError:
-        log.debug("ws message isn't json text=%s", text)
-        return
-    
-    if set(data.keys()) != set(('username', 'message')):
-        log.debug("ws message unexpected format data=%s", data)
-        return
-
-    if data:
-        log.debug('chat message room=%s username=%s message=%s', 
-            room.title, data['username'], data['message'])
-        m = room.messages.create(**data)
-
-        # See above for the note about Group
-        Group('list_rooms-'+title, channel_layer=message.channel_layer).send({'text': json.dumps(m.as_dict())})
-
-@channel_session
-def wsock_disconnect(message):
-    try:
-        title = message.channel_session['room']
-        room = Room.objects.get(title=title)
-        Group('list_rooms-'+title, channel_layer=message.channel_layer).discard(message.reply_channel)
-    except (KeyError, Room.DoesNotExist):
-        pass
-'''

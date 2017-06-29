@@ -265,17 +265,22 @@ def change_members(request, operation, pk):
         PrivRoom.remove_roomfriend(request.user, roomfriend)
     return redirect('new_room_private')
     
-'''
+#correct chat
 @never_cache
 @login_required
 def chat_room(request, title, *args,**kwargs):
     # If the room with the given label doesn't exist, automatically create it
     # upon first visit (a la etherpad).
-    room, created = Room.objects.get_or_create(title=title)
-    # We want to show the last 50 messages, ordered most-recent-last
-    messages = reversed(room.messages.order_by('-timestamp')[:50])
-    return render(request, "chat/room.html", {
+
+    room = Room.objects.get(title=title)
+    # show id of required room
+    roomobj = Room.objects.filter(title=title).values_list('id', flat=True).first()
+    
+    #get messages from this room
+    messages = reversed(Message.objects.filter(room_id=roomobj).order_by('-timestamp')[:50])
+    return render(request, "room.html", {
         'room': room,
+        'roomobj': roomobj,
         'messages': messages,
     })    
 
@@ -283,13 +288,11 @@ def chat_room(request, title, *args,**kwargs):
 @login_required
 def chat_list_rooms(request):
 
-    if not request.user.is_authenticated():
-        return HttpResponseRedirect('/accounts/login/')
-    else:
-        # Get a list of rooms, ordered alphabetically
-        rooms = Room.objects.order_by("label")
-        # Render that in the index template
-        return render(request, "chat/list_rooms.html", {
-            "rooms": rooms,
-        })
-'''
+
+    # Get a list of rooms, ordered alphabetically
+    rooms = Room.objects.order_by("title")
+    # Render that in the index template
+    return render(request, "list_rooms.html", {
+        "rooms": rooms,
+    })
+
