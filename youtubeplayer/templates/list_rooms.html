@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load socialprofile_tags %}
+
+{% block content %}
+  {% load static %}
+    <a href="{% url 'chat_index:new_room' %}" data-role="button" data-theme="b" style="width: 25%; float: left;">Новая случайная комната</a>
+    <a href="{% url 'chat_index:new_room_private' %}" data-role="button" data-theme="b" style="width: 25%; float: left;">Создать комнату</a>
+    <p style="clear: left"> Для выбора чата достаточно кликнуть по комнате</p>
+
+
+
+<ul class="rooms">
+    {% for room in rooms %}
+        <li class="room-link" data-room-id="{{ room.id }}"><a href = '{{ request.scheme }}://{{ request.get_host }}/chat/list_rooms/{{ room }}'>{{ room }}</a></li>
+    {% empty %}
+        <p class="empty">Нет созданных комнат. Хотите создать новую<a href="{% url 'chat_index:new_room' %}" data-role="button" data-theme="e">Новая комната</a>?</p>
+    {% endfor %}
+</ul>
+
+
+
+{% endblock content %}
+
+
+
+
+
+
+{% block afterbody %}
+
+    <script type="text/javascript" src='{% static "js/chat.js" %}'></script>
+
+
+{% endblock afterbody %}

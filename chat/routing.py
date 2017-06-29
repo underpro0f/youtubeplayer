@@ -1,7 +1,7 @@
 from channels import route
 from channels.staticfiles import StaticFilesConsumer
-from .consumers import ws_connect, ws_receive, ws_disconnect, chat_join, chat_leave, chat_send
-
+from .consumers import ws_connect, ws_receive, ws_disconnect, chat_join, chat_leave, chat_send #wsock_connect, wsock_receive, wsock_disconnect
+from channels.routing import route_class
 
 # There's no path matching on these routes; we just rely on the matching
 # from the top-level routing. We _could_ path match here if we wanted.
@@ -16,8 +16,19 @@ websocket_routing = [
     # Called when WebSockets disconnect
     route("websocket.disconnect", ws_disconnect),
 ]
+'''
+sub_routing = [
+    route("http.request", StaticFilesConsumer()),
+    # Called when WebSockets connect
+    route("websock.connect", wsock_connect),
 
+    # Called when WebSockets get sent a data frame
+    route("websock.receive", wsock_receive),
 
+    # Called when WebSockets disconnect
+    route("websock.disconnect", wsock_disconnect),
+]
+'''
 # You can have as many lists here as you like, and choose any name.
 # Just refer to the individual names in the include() function.
 custom_routing = [

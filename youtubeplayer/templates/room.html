@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% load static %}
+  <p>Вернуться к <a href = "{% url 'chat_index:chat_list_rooms' %}">списку доступных каналов</a></p>
+  <h1>{{ room }}</h1>
+  <h2>{{ roomobj }}</h2>
+  
+  <p class="quiet">
+    Каждый зарегистрированный пользователь может воспользоваться этой ссылкой для чата: 
+    <code>{{ request.scheme }}://{{ request.get_host }}/chat/list_rooms/{{ room.title }}</code> 
+  </p>
+  <p>
+    <label for="username">Your name:</label>
+    <div id = "username" type="text" placeholder="username"><h1><code>{{ user.username }}</code></h1></div>
+    <!--<input id="username" type="text" placeholder="username">-->
+  </p>
+  <form id="chatform">
+    <table id="chat">
+      {% if messages %}
+      <tbody>
+        {% for message in messages %}
+          <tr>
+            <td>{{ message.timestamp }}</td>
+            <td>{{ message.username }}</td>
+            <td>{{ message.message }}</td>
+          </tr> 
+        {% endfor %}
+      </tbody>
+      {% endif %}
+      <tfoot>
+      <tr>
+        <td>Скажи что-нибудь ({{ user.username }}):</td>
+        <td colspan=2>
+          <input id="message" type="text" placeholder="message">
+          <button type="submit" id="go">Say it</button>
+        </td>
+      </tfoot>
+    </table>
+  </form>
+
+
+{% endblock content %}
+{% block messages %}
+<script>
+$(function() {
+    // When we're using HTTPS, use WSS too.
+    var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+    console.log("Got websocket message " + message.data);
+    
+
+    var ws_path = ws_scheme + '://' + window.location.host + window.location.pathname;
+    console.log("Connecting to " + ws_path);
+    var socket = new ReconnectingWebSocket(ws_path);
+            
+
+
+
+    // username incoming messages
+
+    socket.onmessage = function(message) {
+
+        console.log("Got websocket message " + message.data);
+        var data = JSON.parse(message.data);
+        
+
+        var chat = $("#chat")
+        var ele = $('<tr></tr>')
+
+        if (data.error) {
+            alert(data.error);
+        return;
+        }
+
+
+
+        ele.append(
+            $("<td></td>").text(data.timestamp)
+        )
+        ele.append(
+            $("<td></td>").text(data.username)
+        )
+        ele.append(
+            $("<td></td>").text(data.message)
+        )
+        
+        chat.append(ele)
+    };
+
+    $("#chatform").on("submit", function(event) {
+        var message = {
+            /*username: $('#username').val(),*/
+            "command": "send",
+            "room": data.join,
+            message: $('#message').val(),
+        }
+        socket.send(JSON.stringify(message));
+        $("#message").val('').focus();
+
+        return false;
+    });
+    socket.onopen = function () {
+        console.log("Connected to chat socket");
+    };
+    socket.onclose = function () {
+        console.log("Disconnected from chat socket");
+    }
+});
+    
+</script>
+<script type="text/javascript" src='{% static "js/jquery-1.12.2.min.js" %}'></script>
+<script type="text/javascript" src='{% static "js/reconnecting-websocket.min.js" %}'></script>
+
+{% endblock messages %}
+{% block afterbody %}
+  
+
+{% endblock afterbody %}
